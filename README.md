@@ -2,6 +2,21 @@
 
 Here are configs and playbooks for extending OCP Virtualization Roadshow with GitOps exercises.
 
+## Bookbag update
+
+Update bookbag image
+
+```bash
+podman build -t quay.io/jwerak/bookbag-roadshow .
+podman push quay.io/jwerak/bookbag-roadshow
+```
+
+Update image of DeploymentConfig `bookbag` in namespace `guid-bookbag`:
+
+```bash
+oc patch deploymentconfig bookbag --type='merge' --patch='{"spec":{"triggers": [{"type": "ConfigChange"}],"template":{"spec":{"containers":[{"name": "terminal", "image":"quay.io/jwerak/bookbag-roadshow"}]}}}}'
+```
+
 ## Prerequisites for each cluster
 
 Install GitOps operator and instance of ArgoCD
