@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo | oc apply -f - <<EOF
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-gitops-operator
+EOF
+
+echo | oc apply -f - <<EOF
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-gitops-operator
+  namespace: openshift-gitops-operator
+spec:
+  upgradeStrategy: Default
+EOF
+
+echo | oc apply -f - <<EOF
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshift-gitops-operator
+  namespace: openshift-gitops-operator
+spec:
+  channel: latest
+  installPlanApproval: Automatic
+  name: openshift-gitops-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+
+echo | oc apply -f - <<EOF
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: cluster-admins
+users:
+- admin
+EOF
+
+oc adm policy add-role-to-user admin system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller -n openshift-cnv
+oc adm policy add-role-to-user admin system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller -n openshift-operators
+
+oc -n {{ guid }}-bookbag patch deploymentconfig bookbag --type='merge' --patch='{"spec":{"triggers": [{"type": "ConfigChange"}],"template":{"spec":{"containers":[{"name": "terminal", "image":"quay.io/jwerak/bookbag-roadshow"}]}}}}'

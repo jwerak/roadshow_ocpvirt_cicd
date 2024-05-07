@@ -1,0 +1,20 @@
+---
+- name: Setup Workshop environment
+  hosts: jumphosts
+  gather_facts: false
+  vars:
+    script_path: /tmp/setup-script.sh
+  tasks:
+    - name: Create Setup Script
+      ansible.builtin.template:
+        src: setup-script.sh.j2
+        dest: "{{ script_path }}"
+        mode: "0755"
+
+    - name: Copy setup script to Jumphost
+      ansible.builtin.command:
+        cmd: "sudo scp -o StrictHostKeyChecking=no {{ script_path }} root@192.168.123.100:{{ script_path }}"
+
+    - name: Trigger setup script at bastion
+      ansible.builtin.command:
+        cmd: "sudo ssh -o StrictHostKeyChecking=no root@192.168.123.100 {{ script_path }}"

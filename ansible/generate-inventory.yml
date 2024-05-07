@@ -1,0 +1,11 @@
+---
+- name: Generate OCP Virt Roadshow inventory
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create hosts file
+      ansible.builtin.template:
+        dest: "{{ playbook_dir }}/inventory/jumphosts"
+        src: inventory.j2
+        mode: "0644"

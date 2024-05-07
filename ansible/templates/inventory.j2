@@ -1,0 +1,4 @@
+[jumphosts]
+{% for environment in roadshow_ocpvirt %}
+{{ environment.bastion_public_hostname }} ansible_password={{ environment.bastion_ssh_password }} ansible_user={{ environment.bastion_ssh_user_name }} guid={{ environment.guid }}
+{% endfor %}

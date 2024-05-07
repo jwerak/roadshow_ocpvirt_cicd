@@ -1,0 +1,8 @@
+ansible-navigator:
+  ansible-runner:
+    artifact-dir: /tmp/ansible-navigator
+  logging:
+    file: /tmp/ansible-navigator-log.txt
+  playbook-artifact:
+    replay: /tmp/ansible-navigator/generate-inventory.json
+    save-as: /tmp/ansible-navigator/generate-inventory.json
