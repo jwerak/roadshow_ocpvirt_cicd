@@ -1,0 +1,7 @@
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: appnad
+spec:
+  config: >-
+    {"name":"appnad","type":"cnv-bridge","cniVersion":"0.3.1","bridge":"br-flat","macspoofchk":true,"ipam":{}}

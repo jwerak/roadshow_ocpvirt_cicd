@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: application-virtualized
+spec:
+  destination:
+    name: ""
+    namespace: gitopsexamples
+    server: "https://kubernetes.default.svc"
+  source:
+    path: gitops/virtualized-application
+    repoURL: "https://github.com/jwerak/roadshow_ocpvirt_cicd.git"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated: null
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
