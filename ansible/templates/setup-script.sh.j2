@@ -44,4 +44,4 @@ EOF
 oc adm policy add-role-to-user admin system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller -n openshift-cnv
 oc adm policy add-role-to-user admin system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller -n openshift-operators
 
-oc -n {{ guid }}-bookbag patch deploymentconfig bookbag --type='merge' --patch='{"spec":{"triggers": [{"type": "ConfigChange"}],"template":{"spec":{"containers":[{"name": "terminal", "image":"quay.io/jwerak/bookbag-roadshow"}]}}}}'
+oc -n {{ guid }}-bookbag patch deploymentconfig bookbag --type='merge' --patch='{"spec":{"triggers": [{"type": "ConfigChange"}],"template":{"spec":{"containers":[{"name": "terminal", "image":"{{ roadshow_bookbag_image }}"}]}}}}'

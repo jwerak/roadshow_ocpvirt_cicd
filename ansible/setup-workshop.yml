@@ -4,6 +4,7 @@
   gather_facts: false
   vars:
     script_path: /tmp/setup-script.sh
+    roadshow_bookbag_image: quay.io/jwerak/bookbag-roadshow
   tasks:
     - name: Create Setup Script
       ansible.builtin.template:
