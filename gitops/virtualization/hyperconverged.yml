@@ -6,6 +6,6 @@ metadata:
   namespace: openshift-cnv
 spec:
   tektonPipelinesNamespace: pipelines
-  tektonTasksNamespace: pipelines
+  # tektonTasksNamespace: pipelines # Awailable from 4.14
   featureGates:
     deployTektonTaskResources: true
